@@ -1,4 +1,4 @@
-package com.example.cctv_compose.ui.navigation
+package com.example.cctv_compose.ui.components.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -11,17 +11,17 @@ sealed class BottomBarScreen(
     val title: String,
     val icon: ImageVector
 ) {
-    object Home:BottomBarScreen(
+    object Home: BottomBarScreen(
         route = "home",
         title = "Home",
         icon = Icons.Default.Home
     )
-    object Search:BottomBarScreen(
+    object Search: BottomBarScreen(
         route = "search",
         title = "Search",
         icon = Icons.Default.Search
     )
-    object Favorite:BottomBarScreen(
+    object Favorite: BottomBarScreen(
         route = "favorite",
         title = "Favorite",
         icon = Icons.Default.Favorite

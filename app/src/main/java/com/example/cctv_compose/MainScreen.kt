@@ -4,8 +4,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.cctv_compose.ui.navigation.BottomNavGraph
-import com.example.cctv_compose.ui.navigation.BottomNavigationBar
+import com.example.cctv_compose.ui.components.navigation.BottomNavGraph
+import com.example.cctv_compose.ui.components.navigation.BottomNavigationBar
 
 import com.example.cctv_compose.ui.theme.AppTheme
 

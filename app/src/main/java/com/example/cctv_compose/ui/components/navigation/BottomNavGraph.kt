@@ -1,16 +1,15 @@
-package com.example.cctv_compose.ui.navigation
+package com.example.cctv_compose.ui.components.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.cctv_compose.ui.screen.FavoriteScreen
-import com.example.cctv_compose.ui.screen.HomeScreen
-import com.example.cctv_compose.ui.screen.SearchScreen
+import com.example.cctv_compose.ui.favorite.FavoriteScreen
+import com.example.cctv_compose.ui.home.HomeScreen
+import com.example.cctv_compose.ui.search.SearchScreen
 
 @Composable
 fun BottomNavGraph(

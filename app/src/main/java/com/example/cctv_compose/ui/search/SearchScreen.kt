@@ -1,4 +1,4 @@
-package com.example.cctv_compose.ui.screen
+package com.example.cctv_compose.ui.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
