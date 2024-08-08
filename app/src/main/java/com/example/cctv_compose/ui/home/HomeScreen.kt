@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -26,47 +27,42 @@ import com.example.cctv_compose.ui.components.CCTVView
 fun HomeScreen(
     cctvViewModel: CCTVViewModel = viewModel(),
 ) {
-
-    val uiState = cctvViewModel.cctvResult.collectAsState()
+    val cctvList = cctvViewModel.nearbyCCTV.collectAsState()
 
     Surface {
-        when (val state = uiState.value) {
-            is UiState.Error -> {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    Text(text = state.exception.message.toString())
-                }
+        if (cctvList.value.isEmpty()) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
             }
-
-            is UiState.Loading -> {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.width(64.dp),
-                        color = MaterialTheme.colorScheme.secondary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    )
-                }
-            }
-
-            is UiState.Success -> {
-                val cctvList = state.data.take(3)
-                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
-                    HomeToolbar()
-                    CCTVView(
-                        title = cctvList[0].name,
-                        url = cctvList[0].url,
-                        modifier = Modifier.weight(1f)
-                    )
-                    CCTVView(
-                        title = cctvList[1].name,
-                        url = cctvList[1].url,
-                        modifier = Modifier.weight(1f)
-                    )
-                    CCTVView(
-                        title = cctvList[2].name,
-                        url = cctvList[2].url,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+        } else {
+            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                HomeToolbar(
+                    onRefreshClick = {
+                        cctvViewModel.refreshCurrentLocation()
+                    }
+                )
+                CCTVView(
+                    title = cctvList.value[0].name,
+                    url = cctvList.value[0].url,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+                CCTVView(
+                    title = cctvList.value[1].name,
+                    url = cctvList.value[1].url,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+                CCTVView(
+                    title = cctvList.value[2].name,
+                    url = cctvList.value[2].url,
+                    modifier = Modifier
+                        .weight(1f)
+                )
             }
         }
     }

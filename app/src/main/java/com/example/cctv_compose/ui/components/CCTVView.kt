@@ -34,8 +34,10 @@ fun CCTVView(
             factory = { context ->
                 WebView(context).apply {
                     webViewClient = WebViewClient()
-                    loadCCTVUrl(url)
                 }
+            },
+            update = { webView ->
+                webView.loadCCTVUrl(url)
             },
             modifier = Modifier
                 .weight(1f)
