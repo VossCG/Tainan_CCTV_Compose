@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cctv_compose.ui.cctv.CCTVViewModel
 import com.example.cctv_compose.ui.theme.AppTheme
-import com.example.cctv_compose.model.UiState
 import com.example.cctv_compose.ui.components.CCTVView
+import com.voss.tainan_cctv.model.Coordinate
 
 
 @Composable
@@ -36,6 +36,7 @@ fun HomeScreen(
                     modifier = Modifier.width(64.dp),
                     color = MaterialTheme.colorScheme.secondary,
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    strokeWidth = 12.dp,
                 )
             }
         } else {
@@ -43,6 +44,9 @@ fun HomeScreen(
                 HomeToolbar(
                     onRefreshClick = {
                         cctvViewModel.refreshCurrentLocation()
+                    },
+                    onMyLocationClick = {
+                        cctvViewModel.setLocation(Coordinate.TRAIN_STATION)
                     }
                 )
                 CCTVView(

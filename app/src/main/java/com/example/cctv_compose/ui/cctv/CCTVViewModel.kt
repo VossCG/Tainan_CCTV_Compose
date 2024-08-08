@@ -10,16 +10,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.cctv_compose.extension.sortByLocationDto
 import com.voss.tainan_cctv.model.CCTVDto
 import com.voss.tainan_cctv.remote.CCTVClient
-import com.example.cctv_compose.model.UiState
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.voss.tainan_cctv.model.Coordinate
-import com.voss.tainan_cctv.utils.CCTVUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -36,6 +33,22 @@ class CCTVViewModel(application: Application) : AndroidViewModel(application) {
         combine(cctvDto, userLocation) { cctv, userLocation ->
             cctv.sortByLocationDto(userLocation).take(3)
         }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    init {
+        refreshCurrentLocation()
+        fetchCCTV()
+    }
+
+    private fun fetchCCTV() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val data = CCTVClient.API.getCCTVs()
+                cctvDto.value = data
+            } catch (e: Exception) {
+                cctvDto.value = emptyList()
+            }
+        }
+    }
 
     @SuppressLint("MissingPermission")
     fun refreshCurrentLocation() {
@@ -54,19 +67,8 @@ class CCTVViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    init {
-        refreshCurrentLocation()
-        fetchCCTV()
+    fun setLocation(coordinate: Coordinate) {
+        userLocation.value = coordinate
     }
 
-    private fun fetchCCTV() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val data = CCTVClient.API.getCCTVs()
-                cctvDto.value = data
-            } catch (e: Exception) {
-                cctvDto.value = emptyList()
-            }
-        }
-    }
 }
